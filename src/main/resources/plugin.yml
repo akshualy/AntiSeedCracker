@@ -1,0 +1,17 @@
+name: AntiSeedCracker
+version: ${project.version}
+main: me.gadse.antiseedcracker.AntiSeedCracker
+api-version: 1.13
+authors: [Gadse]
+description: Modifies the hashed seed sent to clients upon joining to make cracking the seed of your world harder
+depend: ["ProtocolLib"]
+
+commands:
+  antiseedcracker:
+    permission: "antiseedcracker.admin"
+    usage: /antiseedcracker [reload]
+    description: Version info and config reload command of AntiSeedCracker
+
+permissions:
+  antiseedcracker.admin:
+    default: op

@@ -2,7 +2,9 @@ package me.gadse.antiseedcracker.listeners;
 
 import me.gadse.antiseedcracker.AntiSeedCracker;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.boss.DragonBattle;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EntityType;
@@ -25,9 +27,10 @@ public class DragonRespawnSpikeModifier implements Listener {
         World world = event.getEntity().getWorld();
         if (event.getEntityType() != EntityType.ENDER_CRYSTAL
                 || world.getEnvironment() != World.Environment.THE_END
+                || event.getBlock().getType() != Material.BEDROCK
                 || isOutsidePortalRadius(event.getBlock().getLocation())
-                || world.getNearbyEntitiesByType(EnderCrystal.class, event.getEntity().getLocation(), 7).size() != 3
-                || !plugin.getConfig().getStringList("whitelisted_worlds").contains(world.getName())
+                || getAmountOfEnderCrystalsOnPortal(world) != 3
+                || !plugin.getConfig().getStringList("modify_end_spikes.whitelisted_worlds").contains(world.getName())
                 || taskScheduled) {
             return;
         }
@@ -52,6 +55,14 @@ public class DragonRespawnSpikeModifier implements Listener {
             taskScheduled = false;
             task.cancel();
         }, 300L, 20L);
+    }
+
+    private int getAmountOfEnderCrystalsOnPortal(World world) {
+        Location endLocation = new Location(world, 0, 65, 0);
+        return world.getNearbyEntities(
+                endLocation, 7, 2, 7, entity -> entity instanceof EnderCrystal
+                            && entity.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK
+        ).size();
     }
 
     private boolean isOutsidePortalRadius(Location location) {

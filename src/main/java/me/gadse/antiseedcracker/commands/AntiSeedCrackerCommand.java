@@ -6,8 +6,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.util.StringUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +20,7 @@ public class AntiSeedCrackerCommand implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public boolean onCommand(
-            @NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0 || !args[0].equalsIgnoreCase("reload")) {
             return false;
         }
@@ -36,8 +33,7 @@ public class AntiSeedCrackerCommand implements CommandExecutor, TabCompleter {
 
     private final Set<String> args_zero = Set.of("reload");
     @Override
-    public @Nullable List<String> onTabComplete(
-            @NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1 && sender.hasPermission("antiseedcracker.admin")) {
             return StringUtil.copyPartialMatches(args[0], args_zero, new ArrayList<>());
         }

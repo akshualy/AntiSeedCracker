@@ -1,7 +1,7 @@
 name: AntiSeedCracker
-version: ${project.version}
+version: '${version}'
 main: me.gadse.antiseedcracker.AntiSeedCracker
-api-version: 1.13
+api-version: 1.20
 authors: [Gadse]
 description: Modifies the hashed seed sent to clients upon joining to make cracking the seed of your world harder
 depend: ["ProtocolLib"]
@@ -11,6 +11,8 @@ commands:
     permission: "antiseedcracker.admin"
     usage: /antiseedcracker [reload]
     description: Version info and config reload command of AntiSeedCracker
+    aliases:
+      - asc
 
 permissions:
   antiseedcracker.admin:

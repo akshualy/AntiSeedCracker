@@ -12,7 +12,7 @@ A Spigot plugin making an effort to work against seed cracking mods.
 
 ## Help wanted/Features planned
 
-- Biome name randomization (RealisticSeasons does this, but it's a lot of effort)
+- [Biome name randomization](https://wiki.vg/Registry_Data#Biome) (RealisticSeasons does this, but it's a lot of effort)
 - Modification of more structures, we should be able to get locations through the seed which we have access to.
 
 ## Build

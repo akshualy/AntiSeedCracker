@@ -18,7 +18,14 @@ public class ServerLogin extends PacketAdapter {
     public void onPacketSending(PacketEvent event) {
         PacketContainer packet = event.getPacket();
         try {
-            InternalStructure structureModifier = packet.getStructures().read(1);
+            int structureSize = packet.getStructures().size();
+            if (structureSize == 0) {
+                plugin.getLogger().warning(
+                        "Can not write hashed seed at login for player " + event.getPlayer().getName() + "."
+                );
+                return;
+            }
+            InternalStructure structureModifier = packet.getStructures().read(structureSize - 1);
             structureModifier.getLongs().write(
                     0, plugin.randomizeHashedSeed(structureModifier.getLongs().read(0))
             );

@@ -18,12 +18,19 @@ public class ServerRespawn extends PacketAdapter {
     public void onPacketSending(PacketEvent event) {
         PacketContainer packet = event.getPacket();
         try {
-            InternalStructure structureModifier = packet.getStructures().read(1);
+            int structureSize = packet.getStructures().size();
+            if (structureSize == 0) {
+                plugin.getLogger().warning(
+                        "Can not write hashed seed at respawn for player " + event.getPlayer().getName() + "."
+                );
+                return;
+            }
+            InternalStructure structureModifier = packet.getStructures().read(structureSize - 1);
             structureModifier.getLongs().write(
                     0, plugin.randomizeHashedSeed(structureModifier.getLongs().read(0))
             );
         } catch (FieldAccessException ex) {
-            plugin.getLogger().warning("Failed writing to login packet: " + ex.getMessage());
+            plugin.getLogger().warning("Failed writing to respawn packet: " + ex.getMessage());
         }
         event.setPacket(packet);
     }

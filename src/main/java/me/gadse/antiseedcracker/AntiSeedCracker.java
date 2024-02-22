@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolManager;
 
 import me.gadse.antiseedcracker.commands.AntiSeedCrackerCommand;
 import me.gadse.antiseedcracker.listeners.DragonRespawnSpikeModifier;
+import me.gadse.antiseedcracker.listeners.EndCityModifier;
 import me.gadse.antiseedcracker.packets.ServerLogin;
 import me.gadse.antiseedcracker.packets.ServerRespawn;
 import org.bukkit.Location;
@@ -27,7 +28,9 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
 
     private ProtocolManager protocolManager;
     private NamespacedKey modifiedSpike;
+
     private DragonRespawnSpikeModifier dragonRespawnspikeModifier;
+    private EndCityModifier endCityModifier;
 
     @Override
     public void onEnable() {
@@ -39,6 +42,7 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
         protocolManager = ProtocolLibrary.getProtocolManager();
         modifiedSpike = new NamespacedKey(this, "modified-spike");
         dragonRespawnspikeModifier = new DragonRespawnSpikeModifier(this);
+        endCityModifier = new EndCityModifier(this);
 
         PluginCommand command = getCommand("antiseedcracker");
         if (command == null) {
@@ -54,6 +58,7 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
         if (!isOnEnable) {
             protocolManager.removePacketListeners(this);
             dragonRespawnspikeModifier.unregister();
+            endCityModifier.unregister();
         }
 
         if (getConfig().getBoolean("randomize_hashed_seed.login", true)) {
@@ -64,9 +69,9 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
             protocolManager.addPacketListener(new ServerRespawn(this));
         }
 
-        if (getConfig().getBoolean("modify_end_spikes.enabled", false)) {
+        if (getConfig().getBoolean("modifiers.end_spikes.enabled", false)) {
             getServer().getWorlds().forEach(world -> {
-                if (!getConfig().getStringList("modify_end_spikes.whitelisted_worlds").contains(world.getName())) {
+                if (!getConfig().getStringList("modifiers.end_spikes.whitelisted_worlds").contains(world.getName())) {
                     return;
                 }
 
@@ -79,12 +84,17 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
             });
             getServer().getPluginManager().registerEvents(dragonRespawnspikeModifier, this);
         }
+
+        if (getConfig().getBoolean("modifiers.end_cities.enabled", false)) {
+            getServer().getPluginManager().registerEvents(endCityModifier, this);
+        }
     }
 
     @Override
     public void onDisable() {
         protocolManager.removePacketListeners(this);
         dragonRespawnspikeModifier.unregister();
+        endCityModifier.unregister();
     }
 
     public long randomizeHashedSeed(long hashedSeed) {

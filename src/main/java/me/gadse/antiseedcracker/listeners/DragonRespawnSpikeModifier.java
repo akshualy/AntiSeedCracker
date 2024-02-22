@@ -30,7 +30,7 @@ public class DragonRespawnSpikeModifier implements Listener {
                 || event.getBlock().getType() != Material.BEDROCK
                 || isOutsidePortalRadius(event.getBlock().getLocation())
                 || getAmountOfEnderCrystalsOnPortal(world) != 3
-                || !plugin.getConfig().getStringList("modify_end_spikes.whitelisted_worlds").contains(world.getName())
+                || !plugin.getConfig().getStringList("modifiers.end_spikes.worlds").contains(world.getName())
                 || taskScheduled) {
             return;
         }

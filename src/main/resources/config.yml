@@ -9,16 +9,25 @@ randomize_hashed_seed:
   # It contains about half the fields the login packet has, mainly the new world information.
   respawn: true
 
-# Whether the end spikes should be modified so that they do not conform to known pillar generation seeds.
-# Warning: This does modify the bedrock block on top of the spike, so only enable this if you're fine with that!
-modify_end_spikes:
-  # Whether this feature is enabled.
-  enabled: false
-  # How the end spikes should be modified.
-  # "swap" means that it swaps the bedrock blocks of two spikes, but this comes at the downside of floating bedrock.
-  # "move" means that it moves a random bedrock block down, but makes the positions "illogical".
-  # At the moment there is no check against "move", so by default I recommend "move".
-  mode: move
-  # The worlds end spikes are allowed to be modified in.
-  whitelisted_worlds:
-    - "world_the_end"
+# Warning: All of these actually modify your world. Only enable them if you are okay with that!
+modifiers:
+  # Modification of end spikes (bedrock) so that they do not conform to known pillar generation seeds.
+  end_spikes:
+    # Whether this feature is enabled.
+    enabled: false
+    # How the end spikes should be modified.
+    # "swap" means that it swaps the bedrock blocks of two spikes, but this comes at the downside of floating bedrock.
+    # "move" means that it moves a random bedrock block down, but makes the positions "illogical".
+    # At the moment there is no check against "move", so by default I recommend "move".
+    mode: move
+    # The worlds end spikes are allowed to be modified in.
+    worlds:
+      - "world_the_end"
+
+  # Modification of end cities (magenta_stained_glass -> magenta_stained_glass_pane).
+  end_cities:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds end cities are allowed to be modified in.
+    worlds:
+      - "world_the_end"

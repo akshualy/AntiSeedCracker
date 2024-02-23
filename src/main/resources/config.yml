@@ -24,7 +24,8 @@ modifiers:
     worlds:
       - "world_the_end"
 
-  # Modification of end cities (magenta_stained_glass -> magenta_stained_glass_pane).
+  # Modification of end cities' base tower (magenta_stained_glass -> magenta_stained_glass_pane).
+  # This check is only done once per end city; so if someone decides to 'fix' it, the effort is undone.
   end_cities:
     # Whether this feature is enabled.
     enabled: false

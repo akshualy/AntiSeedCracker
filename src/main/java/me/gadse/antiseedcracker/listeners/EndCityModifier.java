@@ -12,7 +12,6 @@ import org.bukkit.generator.structure.GeneratedStructure;
 import org.bukkit.generator.structure.Structure;
 import org.bukkit.generator.structure.StructurePiece;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.util.BoundingBox;
 
 import java.util.Collection;
 
@@ -55,10 +54,10 @@ public class EndCityModifier implements Listener {
             }
 
             int modifiedBlockCount = 0;
-            BoundingBox tower = startPiece.getBoundingBox();
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
-                    for (int y = (int) tower.getMinY(); y <= tower.getMaxY(); y++) {
+                    // End cities always generate at y=60, the glass block is always at Y62/63
+                    for (int y = 62; y <= 63; y++) {
                         Block block = event.getChunk().getBlock(x, y, z);
                         if (block.getType() == Material.MAGENTA_STAINED_GLASS) {
                             block.setType(Material.MAGENTA_STAINED_GLASS_PANE);

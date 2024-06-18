@@ -71,7 +71,7 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
 
         if (getConfig().getBoolean("modifiers.end_spikes.enabled", false)) {
             getServer().getWorlds().forEach(world -> {
-                if (!getConfig().getStringList("modifiers.end_spikes.whitelisted_worlds").contains(world.getName())) {
+                if (!getConfig().getStringList("modifiers.end_spikes.worlds").contains(world.getName())) {
                     return;
                 }
 

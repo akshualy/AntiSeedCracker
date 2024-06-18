@@ -60,7 +60,7 @@ public class DragonRespawnSpikeModifier implements Listener {
     private int getAmountOfEnderCrystalsOnPortal(World world) {
         Location endLocation = new Location(world, 0, 65, 0);
         return world.getNearbyEntities(
-                endLocation, 7, 2, 7, entity -> entity instanceof EnderCrystal
+                endLocation, 7, 3, 7, entity -> entity instanceof EnderCrystal
                             && entity.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK
         ).size();
     }

@@ -25,7 +25,7 @@ public class DragonRespawnSpikeModifier implements Listener {
     @EventHandler
     public void onPlayerPlaceRespawnCrystals(EntityPlaceEvent event) {
         World world = event.getEntity().getWorld();
-        if (event.getEntityType() != EntityType.ENDER_CRYSTAL
+        if (event.getEntityType() != EntityType.END_CRYSTAL
                 || world.getEnvironment() != World.Environment.THE_END
                 || event.getBlock().getType() != Material.BEDROCK
                 || isOutsidePortalRadius(event.getBlock().getLocation())

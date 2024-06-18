@@ -18,14 +18,23 @@ public class DragonRespawnSpikeModifier implements Listener {
     private final AntiSeedCracker plugin;
     private boolean taskScheduled = false;
 
+    private EntityType crystalType;
+
     public DragonRespawnSpikeModifier(AntiSeedCracker plugin) {
         this.plugin = plugin;
+
+        try {
+            crystalType = EntityType.END_CRYSTAL;
+        } catch (NoSuchFieldError ignored) {
+            // Support for versions below 1.20.5
+            crystalType = EntityType.valueOf("ENDER_CRYSTAL");
+        }
     }
 
     @EventHandler
     public void onPlayerPlaceRespawnCrystals(EntityPlaceEvent event) {
         World world = event.getEntity().getWorld();
-        if (event.getEntityType() != EntityType.END_CRYSTAL
+        if (event.getEntityType() != crystalType
                 || world.getEnvironment() != World.Environment.THE_END
                 || event.getBlock().getType() != Material.BEDROCK
                 || isOutsidePortalRadius(event.getBlock().getLocation())

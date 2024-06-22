@@ -8,6 +8,7 @@ import me.gadse.antiseedcracker.AntiSeedCracker;
 public class ServerLogin extends PacketAdapter {
 
     private final AntiSeedCracker plugin;
+    private boolean warnedForOutdatedVersion = false;
 
     public ServerLogin(AntiSeedCracker plugin) {
         super(plugin, ListenerPriority.HIGHEST, PacketType.Play.Server.LOGIN);
@@ -29,8 +30,21 @@ public class ServerLogin extends PacketAdapter {
             structureModifier.getLongs().write(
                     0, plugin.randomizeHashedSeed(structureModifier.getLongs().read(0))
             );
-        } catch (FieldAccessException ex) {
-            plugin.getLogger().warning("Failed writing to login packet: " + ex.getMessage());
+        } catch (FieldAccessException | NullPointerException ex) {
+            // FieldAccessException is caused by old versions of Minecraft
+            // NPE is caused by old versions of ProtocolLib
+            if (!warnedForOutdatedVersion) {
+                if (ex instanceof FieldAccessException) {
+                    plugin.getLogger().warning(
+                            "You're running an unsupported version of Minecraft. Please update when possible.");
+                }
+
+                if (ex instanceof NullPointerException) {
+                    plugin.getLogger().warning("You're running an old version of ProtocolLib. Please update it.");
+                }
+                warnedForOutdatedVersion = true;
+            }
+            packet.getLongs().write(0, plugin.randomizeHashedSeed(packet.getLongs().read(0)));
         }
         event.setPacket(packet);
     }

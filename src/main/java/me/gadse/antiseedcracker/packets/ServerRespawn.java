@@ -29,8 +29,10 @@ public class ServerRespawn extends PacketAdapter {
             structureModifier.getLongs().write(
                     0, plugin.randomizeHashedSeed(structureModifier.getLongs().read(0))
             );
-        } catch (FieldAccessException ex) {
-            plugin.getLogger().warning("Failed writing to respawn packet: " + ex.getMessage());
+        } catch (FieldAccessException | NullPointerException ex) {
+            // FieldAccessException is caused by old versions of Minecraft
+            // NPE is caused by old versions of ProtocolLib
+            packet.getLongs().write(0, plugin.randomizeHashedSeed(packet.getLongs().read(0)));
         }
         event.setPacket(packet);
     }
